@@ -26,11 +26,12 @@
 
     <!-- ADDED START -->
         <!-- GAZEBO DIFF DRIVE -->
+        <!-- USING THIS AS A WORKAROUND UNTIL HIGH LEVEL CONTROL IS ESTABLISHED -->
 
     <gazebo>
         <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
     
-    
+            <updateRate>10</updateRate><!-- was 20 -->
             <!-- Wheel Information -->
             <left_joint>left_wheel_joint</left_joint>
             <right_joint>right_wheel_joint</right_joint>
@@ -45,7 +46,7 @@
 
             <!-- Output -->
             <odometry_frame>odom</odometry_frame>
-            <robot_base_frame>base</robot_base_frame>
+            <robot_base_frame>base_link</robot_base_frame><!-- was base -->
 
             <publish_odom>true</publish_odom>
             <publish_odom_tf>true</publish_odom_tf>
@@ -56,27 +57,26 @@
     </gazebo>
 
         <!-- GAZEBO JOINT STATE PUBLISHER -->
+        <!-- THIS IS NOT NEEDED ONCE HIGH LEVEL CONTROL IS ESTABLISHED -->
 
     <gazebo>
         <plugin name="gazebo_ros_joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
             <robotNamespace>/go1_gazebo</robotNamespace>
+            <update_rate>20</update_rate>
 
             <joint_name>FR_hip_joint</joint_name>
             <joint_name>FR_thigh_joint</joint_name>
             <joint_name>FR_calf_joint</joint_name>
-            <joint_name>FR_foot_joint</joint_name>
             <joint_name>FL_hip_joint</joint_name>
             <joint_name>FL_thigh_joint</joint_name>
             <joint_name>FL_calf_joint</joint_name>
-            <joint_name>FL_foot_joint</joint_name>
             <joint_name>RR_hip_joint</joint_name>
             <joint_name>RR_thigh_joint</joint_name>
             <joint_name>RR_calf_joint</joint_name>
-            <joint_name>RR_foot_joint</joint_name>
             <joint_name>RL_hip_joint</joint_name>
             <joint_name>RL_thigh_joint</joint_name>
             <joint_name>RL_calf_joint</joint_name>
-            <joint_name>RL_foot_joint</joint_name>
+
 
 
         </plugin>
@@ -94,7 +94,8 @@
                 <material>Gazebo/Green</material>
             </plot>
         </plugin>
-    </gazebo> -->
+    </gazebo> 
+    -->
 
 
     <!-- THIS GIVES ME A FAULT SAYING THE FORCE PLGIN NEEDS A <link_name> -->
@@ -127,6 +128,8 @@
         </sensor>
     </gazebo>
 
+
+    <!-- THIS HAS TO BE COMMENTED OUT BECAUSE THE PLUGINS DONT EXIST FOR THE NEW VERSION OF GAZEBO ANYMORE, ONCE THEY BECOME AVAILIABLE THIS CAN BE USED -->
     <!-- Depth camera -->
     <!-- <gazebo>
         <plugin name="camera_plugin" filename="libgazebo_ros_openni_kinect.so">
@@ -254,7 +257,7 @@
 
 
     <!-- Foot contacts. -->
-    <!-- THIS I COMMENT OUT JUST TO TRY BECAUSE NEED PLUGIN FROM UNITREE-->
+    <!-- THIS HAS TO BE COMMENTED OUT UNTIL THE PLUGINS FOR ROS2 ARE AVAILIABLE FROM UNITREE -->
     <!--
     <gazebo reference="FR_calf">
         <sensor name="FR_foot_contact" type="contact">
@@ -293,8 +296,11 @@
         </sensor>
     </gazebo>
     -->
+
+
+
     <!-- Visualization of Foot contacts. -->
-    <!-- THIS I COMMENT OUT JUST TO TRY BECAUSE NEED PLUGIN FROM UNITREE-->
+    <!-- THIS HAS TO BE COMMENTED OUT UNTIL THE PLUGINS FOR ROS2 ARE AVAILIABLE FROM UNITREE -->
     <!--
     <gazebo reference="FR_foot">
         <visual>
@@ -325,7 +331,9 @@
         </visual>
     </gazebo>
     -->
-    <gazebo reference="base">
+
+
+    <gazebo reference="base_link"><!-- was "base" -->
         <material>Gazebo/Green</material>
         <turnGravityOff>false</turnGravityOff>
     </gazebo>

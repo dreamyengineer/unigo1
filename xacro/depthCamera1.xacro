@@ -3,13 +3,13 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:macro name="depthCamera" params="camID name *origin">
         
-        <joint name="camera_joint_${name}" type="fixed">
+        <joint name="camera_joint_face" type="fixed">
             <xacro:insert_block name="origin"/>
             <parent link="trunk"/>
-            <child link="camera_${name}"/>
+            <child link="camera_face"/>
         </joint>
 
-        <link name="camera_${name}">
+        <link name="camera_face">
             <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
@@ -40,11 +40,11 @@
         <link name="camera_optical_${name}">
         </link>
 
-        <gazebo reference="camera_${name}">
+        <gazebo reference="camera_face">
             <!-- <material>Gazebo/Black</material> -->
-            <sensor name="camera_${name}_camera" type="depth">
+            <sensor name="camera_face_camera" type="depth">
                 <!-- <pose> 0 0 0 0 0 0 </pose> -->
-                <update_rate>100</update_rate><!-- was 16 -->
+                <update_rate>10</update_rate><!-- was 16 -->
                 <camera>
                     <horizontal_fov>2.094</horizontal_fov>
                     <image>
@@ -87,8 +87,8 @@
                 </plugin>
                 -->
                 <!-- WE REPLACE IT WITH A NORMAL DEPTH CAMERA PLUGIN FOR NOW -->
-                <plugin name="camera_${name}_controller" filename="libgazebo_ros_camera.so">
-                    <frame_name>camera_optical_${name}</frame_name>
+                <plugin name="camera_face_controller" filename="libgazebo_ros_camera.so">
+                    <frame_name>camera_optical_face</frame_name>
                     <min_depth>0.1</min_depth>
                     <max_depth>100</max_depth>
                 </plugin>

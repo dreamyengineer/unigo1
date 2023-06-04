@@ -11,8 +11,8 @@
     <xacro:include filename="$(find unigo1)/xacro/leg.xacro"/>
     <!-- <xacro:include filename="$(find unigo1)/xacro/stairs.xacro"/> -->
     <xacro:include filename="$(find unigo1)/xacro/gazebo.xacro"/>
-    <xacro:include filename="$(find unigo1)/xacro/depthCamera.xacro"/>
-    <xacro:include filename="$(find unigo1)/xacro/ultraSound.xacro"/>
+    <xacro:include filename="$(find unigo1)/xacro/depthCamera1.xacro"/>
+<!--    <xacro:include filename="$(find unigo1)/xacro/ultraSound.xacro"/>-->
     <!-- <xacro:include filename="$(find go1_gazebo)/launch/stairs.urdf.xacro"/> -->
 
     <!-- <xacro:stairs stairs="15" xpos="0" ypos="0" zpos="0" /> -->
@@ -26,12 +26,12 @@
         <joint name="base_static_joint" type="fixed">
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <parent link="world"/>
-            <child link="base"/>
+            <child link="base_link"/><!-- was "base"-->
         </joint>
     </xacro:if> 
 
 
-    <link name="base">
+    <link name="base_link"><!-- was "base", needs to be called base_link for Nav2, or remap Nav2 commands -->
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
@@ -56,7 +56,7 @@
 
     <joint name="floating_base" type="fixed">
         <origin rpy="0 0 0" xyz="0 0 0.35"/><!-- z value set to 0.35 so robot floats in the air, should be set to 0 if controlling with legs-->
-        <parent link="base"/>
+        <parent link="base_link"/><!-- was "base"-->
         <child link="trunk"/>
     </joint>
 
@@ -92,19 +92,19 @@
         <!-- LEFT WHEEL -->
 
     <joint name="left_wheel_joint" type="continuous">
-        <parent link="base"/>
+        <parent link="base_link"/><!-- was "base"-->
         <child link="left_wheel"/>
         <origin xyz="0 0.175 0" rpy="-${pi/2} 0 0"/>
         <axis xyz="0 0 1"/>
     </joint>
 
     <link name="left_wheel">
-        <!--<visual>
+        <visual>
             <geometry>
                 <cylinder length="0.04" radius="0.05" />
             </geometry>
             <material name="blue"/>
-        </visual>-->
+        </visual>
         <collision>
             <geometry>
                 <cylinder length="0.04" radius="0.05" />
@@ -122,19 +122,19 @@
         <!-- RIGHT WHEEL -->
 
     <joint name="right_wheel_joint" type="continuous">
-        <parent link="base"/>
+        <parent link="base_link"/><!-- was "base"-->
         <child link="right_wheel"/>
         <origin xyz="0 -0.175 0" rpy="${pi/2} 0 0"/>
         <axis xyz="0 0 -1"/>
     </joint>
 
     <link name="right_wheel">
-        <!--<visual>
+        <visual>
             <geometry>
                 <cylinder length="0.04" radius="0.05" />
             </geometry>
             <material name="blue"/>
-        </visual>-->
+        </visual>
         <collision>
             <geometry>
                 <cylinder length="0.04" radius="0.05" />
@@ -158,12 +158,12 @@
     </joint>
 
     <link name="front_ball">
-        <!--<visual>
+        <visual>
             <geometry>
                 <sphere radius="0.05" />
             </geometry>
             <material name="blue"/>
-        </visual>-->
+        </visual>
         <collision>
             <geometry>
                 <sphere radius="0.05" />
@@ -193,12 +193,12 @@
     </joint>
 
     <link name="back_ball">
-        <!--<visual>
+        <visual>
             <geometry>
                 <sphere radius="0.05" />
             </geometry>
             <material name="blue"/>
-        </visual>-->
+        </visual>
         <collision>
             <geometry>
                 <sphere radius="0.05" />
@@ -257,7 +257,8 @@
     <xacro:depthCamera camID="1" name="face">
         <origin rpy="${PI} 0 0" xyz="0.2785 0.0125 0.0167"/>
     </xacro:depthCamera>
-
+<!-- COMMENTED OUT TO TRY AND UPDATE REFRESH RATE, ALSO ONLY USING DEPTHCAMERA1 AND COMMENTING OUT ULTRASOUND AND -->
+<!--
     <xacro:depthCamera camID="2" name="chin">
         <origin rpy="${PI} ${PI/2} 0" xyz="0.2522 0.0125 -0.0436"/>
     </xacro:depthCamera>
@@ -303,4 +304,5 @@
     <xacro:ultraSound name="face">
         <origin rpy="0 0 0" xyz="0.2747 0.0 -0.0088"/>
     </xacro:ultraSound>
+-->    
 </robot>

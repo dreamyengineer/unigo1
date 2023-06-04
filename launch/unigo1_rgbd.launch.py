@@ -47,21 +47,22 @@ def generate_launch_description():
     localization = LaunchConfiguration('localization')
 
     parameters={
-          'frame_id':'base',#'base_footprint'
+          'frame_id':'base_link',#'base_footprint'#was 'base'
           'use_sim_time':use_sim_time,
           'subscribe_depth':True,
           'use_action_for_goal':True,
           'qos_image':qos,
           'qos_imu':qos,
           'Reg/Force3DoF':'true',
-          'Optimizer/GravitySigma':'0' # Disable imu constraints (we are already in 2D)
+          'Optimizer/GravitySigma':'0', # Disable imu constraints (we are already in 2D)
+          'queue_size': 30, # this is very important for this robot, other wise rtabmap will not get enough images at the same time
     }
 
     remappings=[
-          ('rgb/image', '/camera_face_camera/image_raw'),#was before '/camera/image_raw'),
+          ('rgb/image', '/camera_face_camera/image_raw'),#this has to be changed to the flipped image
           ('rgb/camera_info', '/camera_face_camera/camera_info'),
           ('depth/image', '/camera_face_camera/depth/image_raw'),
-          #('/odom', '/diff_cont/odom')
+          #('/odom', '/unchanged_odom')
           ]
 
     return LaunchDescription([
@@ -80,7 +81,6 @@ def generate_launch_description():
             description='Launch in localization mode.'),
 
         # Nodes to launch
-        
         # SLAM mode:
         Node(
             condition=UnlessCondition(localization),
